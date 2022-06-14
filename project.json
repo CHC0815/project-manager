@@ -1,0 +1,11 @@
+{
+    "Title": "Project Manager",
+    "Desc": [
+        "This is project manager written in go"
+    ],
+    "Languages": [
+        "go"
+    ],
+    "Version": "0.0.1",
+    "Author": "Conrad Heinrich Carl"
+}
