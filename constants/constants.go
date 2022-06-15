@@ -1,10 +1,7 @@
 package constants
 
 import (
-	"cophee.team/project-manager/project"
 	"github.com/charmbracelet/bubbles/key"
-	"github.com/charmbracelet/bubbles/list"
-	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
 )
 
@@ -12,6 +9,12 @@ var StatusMessageStyle = lipgloss.NewStyle().
 						Foreground(lipgloss.AdaptiveColor{
 							Light: "#04B575",
 							Dark: "#04B575"}).Render
+
+var AppStyle = lipgloss.NewStyle().Padding(1, 2)
+var TitleStyle = lipgloss.NewStyle().
+			Foreground(lipgloss.Color("#FFFDF5")).
+			Background(lipgloss.Color("#25A065")).
+			Padding(0, 1)
 
 type KeyMap struct {
 	Up key.Binding
@@ -66,44 +69,11 @@ func (kmap KeyMap) FullHelp() [][]key.Binding {
 	}
 }
 
-func NewItemDelegate(keys *KeyMap) list.DefaultDelegate {
-	d := list.NewDefaultDelegate()
-
-	d.UpdateFunc = func (msg tea.Msg, m *list.Model) tea.Cmd {
-		var title string
-
-		if i, ok := m.SelectedItem().(project.Project); ok { 
-			title = i.Name
-		} else {
-			return nil
-		}
-
-		switch msg := msg.(type) {
-		case tea.KeyMsg:
-			switch {
-			case key.Matches(msg, keys.Select):
-				return m.NewStatusMessage(StatusMessageStyle("You chose " + title))
-			case key.Matches(msg, keys.Delete):
-				index := m.Index()
-				m.RemoveItem(index)
-				if len(m.Items()) == 0 {
-					keys.Delete.SetEnabled(false)
-				}
-				return m.NewStatusMessage(StatusMessageStyle("Deleted " + title))
-			}
-		}
-		return nil
-	}
-
-	help := []key.Binding{keys.Select, keys.Delete, keys.Quit, keys.Up, keys.Down}
-
-	d.ShortHelpFunc = func () []key.Binding {
-		return help
-	}
-
-	d.FullHelpFunc = func() [][]key.Binding {
-		return [][]key.Binding{help}
-	}
-
-	return d
+type ListKeyMap struct {
+	ToggleSpinner    key.Binding
+	ToggleTitleBar   key.Binding
+	ToggleStatusBar  key.Binding
+	TogglePagination key.Binding
+	ToggleHelpMenu   key.Binding
+	InsertItem       key.Binding
 }
