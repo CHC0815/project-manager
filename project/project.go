@@ -41,10 +41,6 @@ func newListKeyMap() *constants.ListKeyMap {
 			key.WithKeys("a"),
 			key.WithHelp("a", "add item"),
 		),
-		ToggleSpinner: key.NewBinding(
-			key.WithKeys("s"),
-			key.WithHelp("s", "toggle spinner"),
-		),
 		ToggleTitleBar: key.NewBinding(
 			key.WithKeys("T"),
 			key.WithHelp("T", "toggle title"),
@@ -99,7 +95,6 @@ func NewProjectModel() ProjectModel {
 	projectList.Styles.Title = constants.TitleStyle
 	projectList.AdditionalFullHelpKeys = func() []key.Binding {
 		return []key.Binding{
-			listKeys.ToggleSpinner,
 			listKeys.InsertItem,
 			listKeys.ToggleTitleBar,
 			listKeys.ToggleStatusBar,
@@ -134,9 +129,6 @@ func (m ProjectModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			break
 		}
 		switch {
-		case key.Matches(msg, m.keys.ToggleSpinner):
-			cmd := m.list.ToggleSpinner()
-			return m, cmd
 		case key.Matches(msg, m.keys.ToggleTitleBar):
 			v := !m.list.ShowTitle()
 			m.list.SetShowTitle(v)

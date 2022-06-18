@@ -17,9 +17,9 @@ var TitleStyle = lipgloss.NewStyle().
 			Padding(0, 1)
 
 type KeyMap struct {
-	Up key.Binding
-	Down key.Binding
-	Quit key.Binding
+	Up     key.Binding
+	Down   key.Binding
+	Quit   key.Binding
 	Select key.Binding
 	Delete key.Binding
 }
@@ -70,7 +70,6 @@ func (kmap KeyMap) FullHelp() [][]key.Binding {
 }
 
 type ListKeyMap struct {
-	ToggleSpinner    key.Binding
 	ToggleTitleBar   key.Binding
 	ToggleStatusBar  key.Binding
 	TogglePagination key.Binding
