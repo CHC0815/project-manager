@@ -1,8 +1,11 @@
 package entry
 
 import (
+	"fmt"
+
 	"cophee.team/project-manager/config"
 	"cophee.team/project-manager/constants"
+	"cophee.team/project-manager/styles"
 	"github.com/charmbracelet/bubbles/key"
 	tea "github.com/charmbracelet/bubbletea"
 )
@@ -41,16 +44,26 @@ func (m EntryModel) Init() tea.Cmd {
 }
 
 func (m EntryModel) View() string {
-	s := m.Config.Title
-	s += "\n" + m.Config.Author
-	return constants.AppStyle.Render(s)
+	box := fmt.Sprintf("%v %v by ", m.Config.Title, m.Config.Version)
+	for _, author := range m.Config.Authors {
+		box += fmt.Sprintf("%v ", author)
+	}
+	s := styles.EntryBox.Render(box)
+	s += "\n"
+	for _, desc := range m.Config.Desc {
+		s += fmt.Sprintf("%v\n", desc)
+	}
+	for _, lang := range m.Config.Languages {
+		s += fmt.Sprintf("%v ", lang)
+	}
+	return styles.AppStyle.Render(s)
 }
 
 func (m EntryModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	var cmds []tea.Cmd
 
 	switch msg := msg.(type) {
-	case tea.KeyMsg: 
+	case tea.KeyMsg:
 		switch {
 		case key.Matches(msg, constants.DefaultKeyMap.Back):
 			return m, func() tea.Msg {

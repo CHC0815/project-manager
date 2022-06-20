@@ -6,6 +6,7 @@ import (
 
 	"cophee.team/project-manager/config"
 	"cophee.team/project-manager/constants"
+	"cophee.team/project-manager/styles"
 	"github.com/charmbracelet/bubbles/key"
 	"github.com/charmbracelet/bubbles/list"
 	tea "github.com/charmbracelet/bubbletea"
@@ -96,7 +97,7 @@ func NewProjectModel() ProjectModel {
 	}
 	projectList := list.New(items, delegate, 0, 0)
 	projectList.Title = "Projects"
-	projectList.Styles.Title = constants.TitleStyle
+	projectList.Styles.Title = styles.TitleStyle
 	projectList.AdditionalFullHelpKeys = func() []key.Binding {
 		return []key.Binding{
 			listKeys.InsertItem,
@@ -118,7 +119,7 @@ func (m ProjectModel) Init() tea.Cmd {
 }
 
 func (m ProjectModel) View() string {
-	return constants.AppStyle.Render(m.list.View())
+	return styles.AppStyle.Render(m.list.View())
 }
 
 func (m ProjectModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
@@ -126,7 +127,7 @@ func (m ProjectModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 	switch msg := msg.(type) {
 	case tea.WindowSizeMsg:
-		h, v := constants.AppStyle.GetFrameSize()
+		h, v := styles.AppStyle.GetFrameSize()
 		m.list.SetSize(msg.Width-h, msg.Height-v)
 	case tea.KeyMsg:
 		if m.list.FilterState() == list.Filtering {

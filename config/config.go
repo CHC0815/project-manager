@@ -15,7 +15,7 @@ type ProjectConfig struct {
 	Desc []string
 	Languages []string
 	Version string
-	Author string
+	Authors []string
 }
 
 func ReadConfig() *Config{

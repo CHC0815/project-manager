@@ -3,6 +3,7 @@ package tui
 import (
 	"cophee.team/project-manager/entry"
 	"cophee.team/project-manager/project"
+	"cophee.team/project-manager/styles"
 	tea "github.com/charmbracelet/bubbletea"
 )
 
@@ -41,6 +42,7 @@ func (m MainModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	switch msg := msg.(type) {
 	case tea.WindowSizeMsg:
 		m.windowSize = msg
+		styles.UpdateEntryBox(msg)
 	case project.SelectMsg:
 		m.path = msg.Path
 		m.state = entryView
