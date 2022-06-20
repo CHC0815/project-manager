@@ -50,12 +50,13 @@ func (m EntryModel) View() string {
 		box += fmt.Sprintf("%v ", author)
 	}
 	s = styles.EntryBox.Render(box)
+	
 	bottom := ""
 	for _, desc := range m.Config.Desc {
 		bottom += fmt.Sprintf("%v\n", desc)
 	}
-	
-	bottom += "Language(s): "
+
+	bottom += "\nLanguage(s): "
 	for _, lang := range m.Config.Languages {
 		bottom += fmt.Sprintf("%v ", lang)
 	}
