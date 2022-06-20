@@ -2,6 +2,7 @@ package project
 
 import (
 	"io/ioutil"
+	"log"
 
 	"cophee.team/project-manager/config"
 	"cophee.team/project-manager/constants"
@@ -12,6 +13,9 @@ import (
 
 var Configuration *config.Config
 
+type SelectMsg struct {
+	Path string
+}
 type Project struct {
 	Name string
 	Path string
@@ -158,10 +162,10 @@ func NewItemDelegate(keys *constants.KeyMap) list.DefaultDelegate {
 	d := list.NewDefaultDelegate()
 
 	d.UpdateFunc = func (msg tea.Msg, m *list.Model) tea.Cmd {
-		var title string
+		var path string
 
 		if i, ok := m.SelectedItem().(Project); ok { 
-			title = i.Name
+			path = i.Path
 		} else {
 			return nil
 		}
@@ -170,14 +174,14 @@ func NewItemDelegate(keys *constants.KeyMap) list.DefaultDelegate {
 		case tea.KeyMsg:
 			switch {
 			case key.Matches(msg, keys.Select):
-				return m.NewStatusMessage(constants.StatusMessageStyle("You chose " + title))
-			case key.Matches(msg, keys.Delete):
-				index := m.Index()
-				m.RemoveItem(index)
-				if len(m.Items()) == 0 {
-					keys.Delete.SetEnabled(false)
-				}
-				return m.NewStatusMessage(constants.StatusMessageStyle("Deleted " + title))
+				return selectProjectCmd(path)
+			// case key.Matches(msg, keys.Delete):
+			// 	index := m.Index()
+			// 	m.RemoveItem(index)
+			// 	if len(m.Items()) == 0 {
+			// 		keys.Delete.SetEnabled(false)
+			// 	}
+			// 	return m.NewStatusMessage(constants.StatusMessageStyle("Deleted " + title))
 			}
 		}
 		return nil
@@ -194,4 +198,11 @@ func NewItemDelegate(keys *constants.KeyMap) list.DefaultDelegate {
 	}
 
 	return d
+}
+
+func selectProjectCmd(path string) tea.Cmd{
+	return func() tea.Msg {
+		log.Println("Selected project: " + path)
+		return SelectMsg{Path: path}
+	}
 }

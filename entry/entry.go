@@ -3,8 +3,11 @@ package entry
 import (
 	"cophee.team/project-manager/config"
 	"cophee.team/project-manager/constants"
+	"github.com/charmbracelet/bubbles/key"
 	tea "github.com/charmbracelet/bubbletea"
 )
+
+type BackMsg bool
 
 type Entry struct {
 	Name string
@@ -45,6 +48,16 @@ func (m EntryModel) View() string {
 
 func (m EntryModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	var cmds []tea.Cmd
+
+	switch msg := msg.(type) {
+	case tea.KeyMsg: 
+		switch {
+		case key.Matches(msg, constants.DefaultKeyMap.Back):
+			return m, func() tea.Msg {
+				return BackMsg(true)
+			}
+		}
+	}
 
 	return m, tea.Batch(cmds...)
 }

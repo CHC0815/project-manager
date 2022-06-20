@@ -22,6 +22,7 @@ type KeyMap struct {
 	Quit   key.Binding
 	Select key.Binding
 	Delete key.Binding
+	Back   key.Binding
 }
 
 var DefaultKeyMap = KeyMap{
@@ -45,6 +46,10 @@ var DefaultKeyMap = KeyMap{
 		key.WithKeys("backspace", "delete"),
 		key.WithHelp("backspace/delete", "delete"),
 	),
+	Back: key.NewBinding(
+		key.WithKeys("b", "esc"),
+		key.WithHelp("b/esc", "back"),
+	),
 }
 
 func (kmap KeyMap) ShortHelp() []key.Binding {
@@ -54,6 +59,7 @@ func (kmap KeyMap) ShortHelp() []key.Binding {
 		kmap.Quit, 
 		kmap.Select, 
 		kmap.Delete,
+		kmap.Back,
 	}
 }
 
@@ -65,6 +71,7 @@ func (kmap KeyMap) FullHelp() [][]key.Binding {
 			kmap.Quit,
 			kmap.Select,
 			kmap.Delete,
+			kmap.Back,
 		},
 	}
 }

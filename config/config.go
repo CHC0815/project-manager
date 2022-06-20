@@ -34,7 +34,12 @@ func ReadProjectConfig(path string) *ProjectConfig {
 	file, err := os.Open(path + "/project.json")
 	if err != nil {
 		if os.IsNotExist(err) {
-			return nil
+			return &ProjectConfig{
+				Title: path,
+				Desc: []string{
+					"No Project File Found",
+				},
+			}
 		}
 		// some other error occurred
 		// maybe log it
