@@ -44,18 +44,22 @@ func (m EntryModel) Init() tea.Cmd {
 }
 
 func (m EntryModel) View() string {
+	s := ""
 	box := fmt.Sprintf("%v %v by ", m.Config.Title, m.Config.Version)
 	for _, author := range m.Config.Authors {
 		box += fmt.Sprintf("%v ", author)
 	}
-	s := styles.EntryBox.Render(box)
-	s += "\n"
+	s = styles.EntryBox.Render(box)
+	bottom := ""
 	for _, desc := range m.Config.Desc {
-		s += fmt.Sprintf("%v\n", desc)
+		bottom += fmt.Sprintf("%v\n", desc)
 	}
+	
+	bottom += "Language(s): "
 	for _, lang := range m.Config.Languages {
-		s += fmt.Sprintf("%v ", lang)
+		bottom += fmt.Sprintf("%v ", lang)
 	}
+	s += styles.EntryBoxBottom.Render(bottom)
 	return styles.AppStyle.Render(s)
 }
 

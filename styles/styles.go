@@ -11,6 +11,7 @@ var StatusMessageStyle = lipgloss.NewStyle().
 							Dark: "#04B575"}).Render
 
 var AppStyle = lipgloss.NewStyle().Padding(1, 2)
+
 var TitleStyle = lipgloss.NewStyle().
 			Foreground(lipgloss.Color("#FFFDF5")).
 			Background(lipgloss.Color("#25A065")).
@@ -19,8 +20,14 @@ var TitleStyle = lipgloss.NewStyle().
 var EntryBox = lipgloss.NewStyle().Padding(1, 2).
 			Align(lipgloss.Center).Border(lipgloss.DoubleBorder())
 
+var EntryBoxBottom = lipgloss.NewStyle().Padding(1, 2).
+			Align(lipgloss.Center).Border(lipgloss.NormalBorder())
 
 func UpdateEntryBox(size tea.WindowSizeMsg) {
 	EntryBox = lipgloss.NewStyle().Padding(1, 2).
-			Align(lipgloss.Center).Border(lipgloss.DoubleBorder()).Width(size.Width - 6)
+			Align(lipgloss.Center).Border(lipgloss.DoubleBorder()).
+			Width(size.Width - 6)
+	EntryBoxBottom = lipgloss.NewStyle().Padding(2, 2).
+			Border(lipgloss.NormalBorder(), false, true, true, true).
+			Width(size.Width - 6)
 }
